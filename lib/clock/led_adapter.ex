@@ -8,7 +8,6 @@ defmodule Clock.LEDAdapter do
   @callback on(led_state()) :: led_state()
   @callback off(led_state()) :: led_state()
 
-  @spec open(pin(), module()) :: %__MODULE__{module: module(), led: led_state()}
   def open(pin, module \\ from_env()) do
     %__MODULE__{module: module, led: module.open(pin)}
   end
