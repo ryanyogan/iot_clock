@@ -15,7 +15,9 @@ config :clock, env: Mix.env()
 # Customize non-Elixir parts of the firmware. See
 # https://hexdocs.pm/nerves/advanced-configuration.html for details.
 
-config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
+config :nerves, :firmware,
+  rootfs_overlay: "rootfs_overlay",
+  provisioning: :nerves_hub_link
 
 # Set the SOURCE_DATE_EPOCH date for reproducible builds.
 # See https://reproducible-builds.org/docs/source-date-epoch/ for more information
@@ -27,6 +29,11 @@ config :nerves, source_date_epoch: "1625858680"
 # configuring ring_logger.
 
 config :logger, backends: [RingLogger]
+
+config :nerves_hub_link,
+  fwup_public_keys: [
+    "HWLVNhi/JFIubFTdaeVY+HXCKrI72ADNV0Gi6/18OZk="
+  ]
 
 if Mix.target() == :host or Mix.target() == :"" do
   import_config "host.exs"

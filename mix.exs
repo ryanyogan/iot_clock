@@ -2,7 +2,7 @@ defmodule Clock.MixProject do
   use Mix.Project
 
   @app :clock
-  @version "0.1.11"
+  @version "1.0.0"
   @all_targets [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a, :rpi4, :bbb, :osd32mp1, :x86_64]
 
   def project do
@@ -36,10 +36,13 @@ defmodule Clock.MixProject do
       {:ring_logger, "~> 0.8.1"},
       {:toolshed, "~> 0.2.13"},
       {:circuits_gpio, "~> 0.4.0"},
+      {:nerves_hub_cli, "~> 0.1", runtime: false},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.3", targets: @all_targets},
       {:nerves_pack, "~> 0.4.0", targets: @all_targets},
+      {:nerves_hub_link, "~> 0.1", targets: @all_targets},
+      {:nerves_time, "~> 0.2", targets: @all_targets},
 
       # Dependencies for specific targets
       {:nerves_system_rpi, "~> 1.13", runtime: false, targets: :rpi},
