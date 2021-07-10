@@ -2,7 +2,7 @@ defmodule Clock do
   @moduledoc """
   Documentation for Clock.
   """
-  alias Clock.Blinker
+  alias Clock.{Blinker, LEDAdapter}
 
   @default_wait 200
 
@@ -19,4 +19,8 @@ defmodule Clock do
       blink(gpio, times, wait)
     end)
   end
+
+  defdelegate on(led), to: LEDAdapter
+  defdelegate off(led), to: LEDAdapter
+  defdelegate set(led, true_or_false), to: LEDAdapter
 end
