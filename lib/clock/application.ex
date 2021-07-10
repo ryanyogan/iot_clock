@@ -1,43 +1,29 @@
 defmodule Clock.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
 
   def start(_type, _args) do
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Clock.Supervisor]
 
-    children =
-      [
-        # Children for all targets
-        # Starts a worker by calling: Clock.Worker.start_link(arg)
-        # {Clock.Worker, arg},
-      ] ++ children(target())
-
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children(target(), env()), opts)
   end
 
-  # List all child processes to be supervised
-  def children(:host) do
-    [
-      # Children that only run on the host
-      # Starts a worker by calling: Clock.Worker.start_link(arg)
-      # {Clock.Worker, arg},
-    ]
+  # Children that only run on test
+  def children(_target, :test) do
+    []
   end
 
-  def children(_target) do
-    [
-      # Children for all targets except host
-      # Starts a worker by calling: Clock.Worker.start_link(arg)
-      # {Clock.Worker, arg},
-    ]
+  # All other child processes for target and host (non test)
+  def children(_target, _env) do
+    [{Clock.Server, Application.get_all_env(:clock)}]
   end
 
   def target() do
     Application.get_env(:clock, :target)
+  end
+
+  def env() do
+    Application.get_env(:clock, :env)
   end
 end
